@@ -11,6 +11,8 @@ public class InGameMgr : MonoBehaviour
 {
     [Header("InGameState")] [HideInInspector]
     public int dayState; // 0 == morning, 1 == afternoon, 2 == night;
+
+    [HideInInspector] public bool isSuc;
     
     [Header("Value")]
      public Queue<int> monsterList = new Queue<int>();
@@ -41,8 +43,8 @@ public class InGameMgr : MonoBehaviour
     [Header("Score")] 
     public Text scoreText;
     public Text comboText;
-    public int combo;
-    public int score;
+    [HideInInspector] public int combo;
+    [HideInInspector] public int score;
     [HideInInspector] public float comboTimeCount = 0;
     
     
@@ -112,6 +114,8 @@ public class InGameMgr : MonoBehaviour
         SetDayState();
 
         isGamePlay = true;
+        isSuc = false;
+        StartCoroutine(SuccessAction());
     }
 
     void SetDayState()
@@ -151,51 +155,68 @@ public class InGameMgr : MonoBehaviour
 
         lastMonster = monster;
     }
-    
-    void SuccessAction()
+
+   
+
+    IEnumerator SuccessAction()
     {
-        combo += 1;
-        comboTimeCount = 0;
-        score += DataMgr.Instance.addScoreValue;
-        GameObject nowMon = monsterObjectListQ.Dequeue();
-        
-        //nowMon Move;
-        if (nowMonster == 0)
+        while (true)
         {
-            //nowMon move to leftLoc;
-            nowMon.transform.DOMove(leftLocation.transform.position, DataMgr.Instance.moveSpeedTime).OnComplete(() => DoCom(nowMon));
-        }
-        else
-        {
-            //nowMon move to rightLoc;
-            nowMon.transform.DOMove(rightLocation.transform.position, DataMgr.Instance.moveSpeedTime)
-                .OnComplete(() => DoCom(nowMon));
+            if (isSuc)
+            {
+                isSuc = false;
+                combo += 1;
+                comboTimeCount = 0;
+                score += DataMgr.Instance.addScoreValue;
+                GameObject nowMon = monsterObjectListQ.Dequeue();
 
-        }
-        
-        //onComplete -> SetActive(false)
+                //nowMon Move;
+                if (nowMonster == 0)
+                {
+                    //nowMon move to leftLoc;
+                    nowMon.transform.DOMove(leftLocation.transform.position, DataMgr.Instance.moveSpeedTime)
+                        .OnComplete(() => DoCom(nowMon));
+                }
+                else
+                {
+                    //nowMon move to rightLoc;
 
-        
-        //Another monster Move to front;
-        foreach (GameObject obj in monsterObjectListQ)
-        {
-            //obj move to obj.y - ( moveVec ); 
-             obj.transform.DOMoveY( obj.transform.position.y - moveValue , DataMgr.Instance.moveSpeedTime);
-             obj.GetComponent<SpriteRenderer>().sortingOrder = ((int)obj.transform.position.y - 10) * (-1);
-        }
-        
-        lastMonster.SetActive(true);
-        lastMonster.GetComponent<SpriteRenderer>().sortingOrder = ((int)lastMonster.transform.position.y - 10) * (-1);
-        lastMonster.transform.DOMoveY( lastMonster.transform.position.y - moveValue , DataMgr.Instance.moveSpeedTime);
-        
+                    nowMon.transform.DOMove(rightLocation.transform.position, DataMgr.Instance.moveSpeedTime)
+                        .OnComplete(() => DoCom(nowMon));
 
-        //nowMon move to last;
-        //nowMon.transform.DOMove(lastLocation, DataMgr.Instance.moveSpeedTime);
-        //nowMon.transform.DOMove(new Vector3(lastMoster.transform.position.x, lastMoster.transform.position.y + moveValue, lastMoster.transform.position.z), DataMgr.Instance.moveSpeedTime);
-        
-        
-        nowMonster = monsterList.Dequeue();
-        
+                }
+
+                //onComplete -> SetActive(false)
+
+
+                //Another monster Move to front;
+                foreach (GameObject obj in monsterObjectListQ)
+                {
+                    //obj move to obj.y - ( moveVec ); 
+                    obj.SetActive(true);
+                    obj.transform.DOMoveY(obj.transform.position.y - moveValue, DataMgr.Instance.moveSpeedTime);
+                    obj.GetComponent<SpriteRenderer>().sortingOrder = ((int)obj.transform.position.y - 10) * (-1);
+                }
+
+                lastMonster.SetActive(true);
+                lastMonster.GetComponent<SpriteRenderer>().sortingOrder =
+                    ((int)lastMonster.transform.position.y - 10) * (-1);
+                var tween = lastMonster.transform
+                    .DOMoveY(lastMonster.transform.position.y - moveValue, DataMgr.Instance.moveSpeedTime).OnComplete(
+                        () => { AddNewMonster(nowMon); });
+
+
+                //nowMon move to last;
+                //nowMon.transform.DOMove(lastLocation, DataMgr.Instance.moveSpeedTime);
+                //nowMon.transform.DOMove(new Vector3(lastMoster.transform.position.x, lastMoster.transform.position.y + moveValue, lastMoster.transform.position.z), DataMgr.Instance.moveSpeedTime);
+
+
+                nowMonster = monsterList.Dequeue();
+                yield return tween.WaitForCompletion();
+            }
+
+            yield return null;
+        }
     }
 
     void DoCom(GameObject mon)
@@ -203,7 +224,7 @@ public class InGameMgr : MonoBehaviour
         //Debug.Log("Complete");
         mon.SetActive(false);
         mon.transform.position = lastLocation;
-        AddNewMonster(mon);
+        
     }
 
     void ButtonClickAction(int buttonType)
@@ -211,8 +232,10 @@ public class InGameMgr : MonoBehaviour
         if (nowMonster == buttonType) //success
         {
             timeValue += DataMgr.Instance.successValue;
+
             
-            SuccessAction();
+            //SuccessAction();
+            isSuc = true;
         }
         else //fail
         {
