@@ -34,7 +34,17 @@ public class DataMgr : Singleton<DataMgr>
     public int bonusStandNum;
     public float bonusTime;
     public int bonusScoreValue;
+
+    [Header("Air")] 
+    public int airStandNum;
+    public float airCamMoveTime;
+    public float airTime;
+    public float airSwipeStand;
+    public float airBulletSpeedTime;
+    public float airMonSpeedTime;
     
     [Header("ImageRes")]
     public Sprite[] monsterImgs;
+
+    public Sprite[] airMonsterImgs;
 }
