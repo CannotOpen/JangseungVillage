@@ -87,11 +87,11 @@ public class ControllerOption : MonoBehaviour
 
     private void OnEnable()
     {
-        AudioManager.Inst.PlaySFX(SoundName.SFX_UI_Setting1);
+        AudioManager.Inst.PlayOneShot(SoundName.SFX_UI_Setting1);
     }
 
     private void OnDisable()
     {
-        AudioManager.Inst.PlaySFX(SoundName.SFX_UI_OnClick);
+        AudioManager.Inst.PlayOneShot(SoundName.SFX_UI_OnClick);
     }
 }

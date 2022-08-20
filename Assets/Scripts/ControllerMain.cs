@@ -19,13 +19,13 @@ public class ControllerMain : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Inst.PlaySFX(SoundName.SFX_Jing);
+        AudioManager.Inst.PlayOneShot(SoundName.SFX_Jing);
         AudioManager.Inst.PlayBGM(AudioManager.Inst.GetClipFromPlaylist(SoundName.BGM_Title.ToString()));
 
         pressToStartButton.OnClickAsObservable()
             .Subscribe(_ =>
             {
-                AudioManager.Inst.PlaySFX(SoundName.SFX_UI_OnClick);
+                AudioManager.Inst.PlayOneShot(SoundName.SFX_UI_OnClick);
                 mainAnimator.SetTrigger("TouchScreen");
             })
             .AddTo(gameObject);
@@ -33,7 +33,7 @@ public class ControllerMain : MonoBehaviour
         tutorialButton.OnClickAsObservable()
             .Subscribe(_ =>
             {
-                AudioManager.Inst.PlaySFX(SoundName.SFX_UI_OnClick);
+                AudioManager.Inst.PlayOneShot(SoundName.SFX_UI_OnClick);
                 tutorialPanel.SetActive(true);
             })
             .AddTo(gameObject);
