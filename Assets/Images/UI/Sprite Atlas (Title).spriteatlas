@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sprite Atlas (Door)
+  m_Name: Sprite Atlas (Title)
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -44,17 +44,23 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 1700fd3c30ef145f1867fb18683500b5, type: 3}
+    - {fileID: 102900000, guid: 7e32c5e7f41304eed8d9f877112b9b5b, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 0d197009af4e54f3aa9e97cbd3f51618, type: 3}
-  - {fileID: 21300000, guid: c4c5b2be899674c3f93f9fd9a9e32a37, type: 3}
+  - {fileID: 21300000, guid: 33287644a01ef4ea8b296d5a80344dcb, type: 3}
+  - {fileID: 21300000, guid: 359e00f7755964be783c30ad909adce9, type: 3}
+  - {fileID: 21300000, guid: 03589979b4a474d269a96a2f63207625, type: 3}
+  - {fileID: 21300000, guid: ab92c2fb5c1004c3d963f613a4de7b05, type: 3}
+  - {fileID: 21300000, guid: 947006adf350b42128d2ab4642b6fa01, type: 3}
   m_PackedSpriteNamesToIndex:
-  - DoorRight
-  - DoorLeft
+  - Lamp
+  - PressToStart
+  - Logo
+  - TitleBackground
+  - TitleMask
   m_RenderDataMap: {}
-  m_Tag: Sprite Atlas (Door)
+  m_Tag: Sprite Atlas (Title)
   m_IsVariant: 0
