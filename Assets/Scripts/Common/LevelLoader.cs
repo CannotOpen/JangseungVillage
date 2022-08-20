@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public enum SceneName
 {
-    Title,
     Main,
     InGame
 }
