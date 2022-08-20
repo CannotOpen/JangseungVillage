@@ -7,12 +7,27 @@ using UnityEngine.Networking;
 
 public enum SoundName
 {
-    title,
-    ingame_default,
-    button_click,
+    SFX_Jing,
     SFX_DoorClose,
     SFX_DoorShut,
-    SFX_DoorOpen_Last
+    SFX_DoorOpen_Last,
+    SFX_UI_OnClick,
+    SFX_UI_Setting1,
+    SFX_GameOver,
+    SFX_CountDown1,
+    SFX_CountDown2,
+    SFX_CountDown3,
+    SFX_PushGold1,
+    SFX_PushGold2,
+    SFX_GetGold,
+    SFX_Tailsman,
+    SFX_Red,
+    SFX_Blue,
+    SFX_Fabric,
+    SFX_BonusTime,
+    BGM_Title,
+    BGM_Default_Mode,
+    BGM_Speed_Mode
 }
 
 /// <summary>

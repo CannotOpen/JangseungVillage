@@ -24,7 +24,7 @@ public class SceneChangeButton : MonoBehaviour
             .Subscribe(_ => 
             {
                 // PlaySFX가 작동하지 않아 PlayOnShot을 사용 - Hyeonwoo, 2022.08.20.
-                AudioManager.Inst.PlayOneShot(SoundName.button_click);
+                AudioManager.Inst.PlayOneShot(SoundName.SFX_UI_OnClick);
                 levelLoader.LoadScene(destinationSceneName);
             })
             .AddTo(gameObject);
