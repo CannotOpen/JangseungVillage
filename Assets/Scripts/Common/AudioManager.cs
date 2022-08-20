@@ -9,7 +9,10 @@ public enum SoundName
 {
     title,
     ingame_default,
-    button_click
+    button_click,
+    SFX_DoorClose,
+    SFX_DoorShut,
+    SFX_DoorOpen_Last
 }
 
 /// <summary>
