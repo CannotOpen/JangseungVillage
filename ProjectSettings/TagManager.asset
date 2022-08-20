@@ -7,6 +7,7 @@ TagManager:
   - Canvas
   - HUDcam
   - LevelLoader
+  - AirMon
   layers:
   - Default
   - TransparentFX
@@ -44,6 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Monsters
+  - name: Monster
+    uniqueID: 1310270949
+    locked: 0
+  - name: Mountain
+    uniqueID: 1292738169
+    locked: 0
+  - name: UI
     uniqueID: 2751456669
     locked: 0
