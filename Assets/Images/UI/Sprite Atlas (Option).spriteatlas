@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprite Atlas (Option)
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 1cda46c4d322b44aa9c960564dec2921, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 68e8719026a24400ba4c9a7883c81504, type: 3}
+  - {fileID: 21300000, guid: e0399622b66a64cedb8af0647b00ff39, type: 3}
+  - {fileID: 21300000, guid: 60ac99224b74f4c8cbf7edb4b4b87efe, type: 3}
+  - {fileID: 21300000, guid: f1bd05932328b44718ec2722e73e6d6e, type: 3}
+  - {fileID: 21300000, guid: f802cc3b4becf4d319f211a4e3be4561, type: 3}
+  - {fileID: 21300000, guid: 5548625b275e04568b2ba2a02c9013a0, type: 3}
+  - {fileID: 21300000, guid: d555579bf126a4c9491c38c3f49c4163, type: 3}
+  - {fileID: 21300000, guid: abfeff3e19231462a8d26090f3d46ef8, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - SelectButtonBackground
+  - SFXText
+  - OptionBackground
+  - ContinueText
+  - BGMText
+  - on
+  - RetryText
+  - off
+  m_RenderDataMap: {}
+  m_Tag: Sprite Atlas (Option)
+  m_IsVariant: 0
