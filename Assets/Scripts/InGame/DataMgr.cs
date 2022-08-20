@@ -8,10 +8,13 @@ public class DataMgr : Singleton<DataMgr>
     public int monsterNumber;
     public float setTime;
     public float successValue;
+    public float goldSucValue;
     public float failValue;
     public float moveSpeedTime;
     public float comboGraceTime; //유예시간
     public int addScoreValue;
+    //public int addScoreValueGold;
+    public float purpleDelayGrace;
 
     public float failedTime;
 
@@ -19,6 +22,19 @@ public class DataMgr : Singleton<DataMgr>
     public float afternoonSpeed;
     public float nightSpeed;
 
-    public Sprite[] monsterImgs;
+    public float redMonPer;
+    public float blueMonPer;
+    public float purpleMonPer;
+    public float goldMonPer;
+
+    public int goldInputNum;
+
+
+    [Header("Bonus")] 
+    public int bonusStandNum;
+    public float bonusTime;
+    public int bonusScoreValue;
     
+    [Header("ImageRes")]
+    public Sprite[] monsterImgs;
 }
