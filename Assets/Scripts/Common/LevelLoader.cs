@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 public enum SceneName
 {
     Main,
-    InGame
+    InGame,
+    SampleScene
 }
 
 public class LevelLoader : MonoBehaviour
@@ -21,7 +22,6 @@ public class LevelLoader : MonoBehaviour
         LoadScene(sceneName.ToString());
     }
 
-    // TODO: <김현우> 위의 함수 이외에 string을 인자로 받는 함수를 사용하는 곳이 없다면 private으로 변경할 것. - Hyeonwoo, 2022.08.20.
     public void LoadScene(string sceneName)
     {
         StartCoroutine(LoadLevel(sceneName));

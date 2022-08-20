@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 8180038459057215592}
   - component: {fileID: 4219608652759192879}
   - component: {fileID: 8527104843283166707}
+  - component: {fileID: 8364286062434679348}
   m_Layer: 0
   m_Name: DoorWipe
   m_TagString: Untagged
@@ -334,6 +335,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8364286062434679348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159064044102385259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf4fcbb03809460d93b7a3cab7e3f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3047781282542771759
 GameObject:
   m_ObjectHideFlags: 0
