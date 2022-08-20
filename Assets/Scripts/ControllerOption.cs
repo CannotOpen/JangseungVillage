@@ -84,4 +84,14 @@ public class ControllerOption : MonoBehaviour
             })
             .AddTo(gameObject);
     }
+
+    private void OnEnable()
+    {
+        AudioManager.Inst.PlaySFX(SoundName.SFX_UI_Setting1);
+    }
+
+    private void OnDisable()
+    {
+        AudioManager.Inst.PlaySFX(SoundName.SFX_UI_OnClick);
+    }
 }
