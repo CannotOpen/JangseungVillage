@@ -1807,6 +1807,7 @@ MonoBehaviour:
   scroll: {fileID: 936184165}
   explainText: {fileID: 936184163}
   scoreText: {fileID: 1453440660}
+  scrollRect: {fileID: 450905216}
   levelLoader: {fileID: 8364286062434679347}
 --- !u!1 &2034104038
 GameObject:

@@ -22,10 +22,15 @@ public class ControllerRanking : MonoBehaviour
     private TextMeshProUGUI scoreText;
 
     [SerializeField]
+    private ScrollRect scrollRect;
+
+    [SerializeField]
     private LevelLoader levelLoader;
 
     private void Start()
     {
+        scrollRect.onValueChanged.AddListener(HandlOnValueChanged);
+
         scroll.animate();
 
         homeButton.OnClickAsObservable()
@@ -65,7 +70,7 @@ public class ControllerRanking : MonoBehaviour
             explainText.text = "생각보다 『평범』하군요";
             break;
         case 3:
-            explainText.text = "우월한 비트유전자";
+            explainText.text = "우월한 가락유전자";
             break;
         case 2:
             explainText.text = "웃기는 박자왕";
@@ -79,5 +84,13 @@ public class ControllerRanking : MonoBehaviour
         }
         
         scoreText.text = PlayerPrefs.GetInt("SCORE_KEY", 0).ToString();
+    }
+
+    private void HandlOnValueChanged(Vector2 value)
+    {
+        if (value.y > 1.3f)
+        {
+            levelLoader.LoadScene(SceneName.InGame);
+        }
     }
 }
