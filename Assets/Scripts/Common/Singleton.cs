@@ -1,89 +1,64 @@
 using UnityEngine;
-using System.Collections;
 
-public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    protected static T _instance = null;
-    static bool isDestroy = false;
-    /// <summary>
-    /// 싱글톤이 생성되어있는지 확인하고 생성되어있으면 리턴.
-    /// 생성되어 있지 않으면 생성 후 리턴.
-    /// </summary>
+    private static T _instance;
+    private static readonly object Syncobj = new object();
+    private static bool _appIsClosing;
+
     public static T Instance
     {
         get
         {
-            if (isDestroy)
+            if (_appIsClosing)
                 return null;
-            if (_instance == null)
+
+            lock (Syncobj)  
             {
-                _instance = GameObject.FindObjectOfType(typeof(T)) as T;
-                if (_instance == null)
-                {
-                    _instance = new GameObject(typeof(T).ToString(), typeof(T)).GetComponent<T>();
-                    if (_instance == null)
-                    {
-                        // 인스턴스를 생성하지 못했을때 에러.
-                        Debug.LogError("Singleton::Problem during the creation of " + typeof(T).ToString());
-                    }
-                }
-                _instance.Init();
+                if (_instance != null) 
+                    return _instance;
+                
+                var objs = FindObjectsOfType<T>();
+
+                if (objs.Length > 0)
+                    _instance = objs[0];
+
+                if (objs.Length > 1)
+                    Debug.LogError("There is more than one " + typeof(T).Name + " in the scene.");
+
+                if (_instance != null) 
+                    return _instance;
+                
+                var goName = typeof(T).ToString();
+                var go = GameObject.Find(goName);
+                
+                if (go == null)
+                    go = new GameObject(goName);
+                
+                _instance = go.AddComponent<T>();
+                
+                return _instance;
             }
-            return _instance;
-        }
-    }
-
-    public static bool IsCreateInstance()
-    {
-        if (_instance == null)
-            return false;
-        return true;
-    }
-
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this as T;
-            _instance.Init();
         }
     }
 
     /// <summary>
-    /// 싱글톤이 생성될때.
+    /// When Unity quits, it destroys objects in a random order.
+    /// In principle, a Singleton is only destroyed when application quits.
+    /// If any script calls Instance after it have been destroyed,
+    ///   it will create a buggy ghost object that will stay on the Editor scene
+    ///   even after stopping playing the Application. Really bad!
+    /// So, this was made to be sure we're not creating that buggy ghost object.
+    /// ---------------------------------------------------------------------------
+    /// Unity가 종료되면, Unity는 임의의 순서로 객체를 파괴합니다.
+    /// 원칙적으로 싱글톤은 응용 프로그램이 종료될 때만 파괴됩니다.
+    /// 인스턴스가 파괴 된 후에 스크립트가 인스턴스를 호출하면 응용 프로그램 재생을
+    /// 중지 한 후에도 편집기 장면에 머물러 있는 버그인 유령 객체가 생성됩니다.
+    /// 그래서 아래 코드는 우리가 유령 객체를 만들지 않도록 하기 위한 것입니다.
     /// </summary>
-    public virtual void Init() { }
-    /// <summary>
-    /// 싱글톤 해제될때.
-    /// </summary>
-    public virtual void Destory() { }
-
-    void Release()
+    protected void OnApplicationQuit()
     {
-        if (_instance != null)
-        {
-            Debug.LogFormat("Singleton Release : {0}", name);
-            _instance.Destory();
-            Destroy(_instance.gameObject);
-            _instance = null;
-            isDestroy = true;
-        }
-        else
-            Debug.LogFormat("Singleton Release null : {0}", name);
-
-    }
-    /// <summary>
-    /// GameObject 해제.
-    /// </summary>
-    void OnDestroy()
-    {
-        Release();
-    }
-    /// <summary>
-    /// 어플리케이션 종료.
-    /// </summary>
-    void OnApplicationQuit()
-    {
-        //Release();
+        // 실행 해제 시 참조를 해제합니다.
+        _appIsClosing = true;
     }
 }
