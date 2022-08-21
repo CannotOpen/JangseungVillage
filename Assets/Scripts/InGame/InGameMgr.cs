@@ -200,6 +200,8 @@ public class InGameMgr : Singleton<InGameMgr>
                             //swipe
                             //Debug.Log("swipe");
 
+                            AudioManager.Inst.PlayOneShot("SFX_Tailsman");
+
                             if (isBtnLCheck)
                             {
                                 //Debug.Log("Left");
@@ -336,6 +338,8 @@ public class InGameMgr : Singleton<InGameMgr>
 
     IEnumerator OpeningRoutine()
     {
+        AudioManager.Inst.PlayBGM("BGM_Default_Mode");
+    
         openingImg.SetActive(true);
         openingImg.GetComponent<RectTransform>().DOShakeAnchorPos(2, Vector2.right* 350).OnComplete(() =>
         {
@@ -746,6 +750,15 @@ public class InGameMgr : Singleton<InGameMgr>
             {
                 if (!isBonus)
                 {
+                    if (buttonType == 0)
+                    {
+                        AudioManager.Inst.PlayOneShot("SFX_Red");
+                    }
+                    else if (buttonType == 1)
+                    {
+                        AudioManager.Inst.PlayOneShot("SFX_Blue");
+                    }
+                    
                     if (!isPurple)
                     {
                         if (nowMonster == buttonType) //success
@@ -803,9 +816,10 @@ public class InGameMgr : Singleton<InGameMgr>
                     }
                 } // ~!bonus
 
-                else
+                else 
                 {
                     isSuc = true;
+                    AudioManager.Inst.PlayOneShot("SFX_BonusTime");
                 }
             }
         }
