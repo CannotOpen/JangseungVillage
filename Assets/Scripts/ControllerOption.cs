@@ -39,7 +39,7 @@ public class ControllerOption : MonoBehaviour
 
     private void Start()
     {
-        bool isShowInGameButton = !string.Equals(SceneManager.GetActiveScene().name, SceneName.Main.ToString());
+        bool isShowInGameButton = string.Equals(SceneManager.GetActiveScene().name, SceneName.InGame.ToString());
 
         retryButton.gameObject.SetActive(isShowInGameButton);
         continueButton.gameObject.SetActive(isShowInGameButton);

@@ -6,7 +6,7 @@ public enum SceneName
 {
     Main,
     InGame,
-    SampleScene
+    Ranking
 }
 
 public class LevelLoader : MonoBehaviour

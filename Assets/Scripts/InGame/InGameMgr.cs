@@ -97,6 +97,8 @@ public class InGameMgr : Singleton<InGameMgr>
     public GameObject rightBullet;
     public GameObject bulletTarget;
 
+    [SerializeField]
+    private LevelLoader levelLoader;
 
     // Start is called before the first frame update
     void Start()
@@ -124,6 +126,8 @@ public class InGameMgr : Singleton<InGameMgr>
                         //GameOver
                         Debug.Log("game over");
                         isGamePlay = false;
+
+                        levelLoader.LoadScene(SceneName.Ranking);
                     }
                     
 
