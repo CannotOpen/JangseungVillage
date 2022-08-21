@@ -425,6 +425,7 @@ MonoBehaviour:
   leftBullet: {fileID: 1049070922}
   rightBullet: {fileID: 141782566}
   bulletTarget: {fileID: 1933108319}
+  levelLoader: {fileID: 929993430}
 --- !u!4 &44048863
 Transform:
   m_ObjectHideFlags: 0
@@ -3192,6 +3193,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac19df6dcefe44ec9be32b9a2dfc901e, type: 3}
+--- !u!114 &929993430 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8364286063695251677, guid: ac19df6dcefe44ec9be32b9a2dfc901e, type: 3}
+  m_PrefabInstance: {fileID: 929993429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933afd12eb7394805a16651c0129f314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &942544918
 GameObject:
   m_ObjectHideFlags: 0
