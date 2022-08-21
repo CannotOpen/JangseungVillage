@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using DG.Tweening.Core;
+using Unity.VisualScripting;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.TextCore.Text;
 
@@ -54,6 +55,7 @@ public class InGameMgr : Singleton<InGameMgr>
     [HideInInspector] public bool isBtnRDown;
     [HideInInspector] public bool isBtnLCheck;
     [HideInInspector] public bool isBtnRCheck;
+    public GameObject openingImg;
 
     [Header("Score")] 
     public Text scoreText;
@@ -66,12 +68,15 @@ public class InGameMgr : Singleton<InGameMgr>
     [Header("Bonus")] 
     [HideInInspector] public bool isBonus;
     public int bonusCombo;
+    public GameObject cloudObj;
     [HideInInspector] public float bonusTimeCount;
     [HideInInspector] public int bonusGaugeIdx;
     public GameObject bonusBackground;
     public GameObject bonusUI;
     public Text bonusComboText;
     public GameObject[] bonusGauge;
+    public GameObject[] bonusLights;
+    public GameObject bonusTextImg;
 
     [Header("Air")] 
     [HideInInspector] public Vector2 startPos;
@@ -85,6 +90,9 @@ public class InGameMgr : Singleton<InGameMgr>
     public GameObject airMonster;
     [HideInInspector] public bool isAirMonMoveEnd;
     [HideInInspector] public AirMonScript airMonScript;
+    public GameObject sunObj;
+    public GameObject sunTarget;
+    [HideInInspector] public Vector3 oriSunLocation;
 
     public GameObject leftBullet;
     public GameObject rightBullet;
@@ -187,11 +195,11 @@ public class InGameMgr : Singleton<InGameMgr>
                         if (swipeLength >= DataMgr.Instance.airSwipeStand)
                         {
                             //swipe
-                            Debug.Log("swipe");
+                            //Debug.Log("swipe");
 
                             if (isBtnLCheck)
                             {
-                                Debug.Log("Left");
+                                //Debug.Log("Left");
                                 leftBullet.transform.DOMove(
                                     new Vector3(leftBullet.transform.position.x, bulletTarget.transform.position.y,
                                         leftBullet.transform.position.z), DataMgr.Instance.airBulletSpeedTime).OnComplete(
@@ -203,7 +211,7 @@ public class InGameMgr : Singleton<InGameMgr>
                             }
                             else if (isBtnRCheck)
                             {
-                                Debug.Log("right");
+                               // Debug.Log("right");
                                 rightBullet.transform.DOMove(
                                     new Vector3(rightBullet.transform.position.x, bulletTarget.transform.position.y,
                                         rightBullet.transform.position.z), DataMgr.Instance.airBulletSpeedTime).OnComplete(
@@ -294,6 +302,8 @@ public class InGameMgr : Singleton<InGameMgr>
         leftBulletOriLocation = leftBullet.transform.position;
         rightBulletOriLocation = rightBullet.transform.position;
 
+        oriSunLocation = sunObj.transform.position;
+        
         combo = 0;
         score = 0;
         goldCount = 0;
@@ -313,13 +323,25 @@ public class InGameMgr : Singleton<InGameMgr>
         
         SetDayState();
 
-        isGamePlay = true;
+        //isGamePlay = true;
         isSuc = false;
         TextUpdate();
         StartCoroutine(SuccessAction());
         StartCoroutine(AirMonControll());
+        StartCoroutine(OpeningRoutine());
     }
 
+    IEnumerator OpeningRoutine()
+    {
+        openingImg.SetActive(true);
+        openingImg.GetComponent<RectTransform>().DOShakeAnchorPos(2, Vector2.right* 350).OnComplete(() =>
+        {
+            openingImg.SetActive(false);
+        });
+
+        yield return new WaitForSeconds(3f);
+        isGamePlay = true;
+    }
 
     void ResetBullet(int bulletType)
     {
@@ -337,14 +359,27 @@ public class InGameMgr : Singleton<InGameMgr>
     {
         airMonster.SetActive(true);
         isAirMonMoveEnd = false;
-        int monType = Random.Range(0, 2); // 0 == red, 1 == blue
+        //int monType = Random.Range(0, 2); // 0 == red, 1 == blue
         //set airMonster to montype
-        airMonScript.SetAirMonType(monType);
+        //airMonScript.SetAirMonType(monType);
         
         int rnd = Random.Range(0, 2); // 0 == outside, 1 == inside
         if (rnd == 0) // outside
         {
             int idx = Random.Range(0, 4);
+            
+            int monType = Random.Range(2, 4);
+            airMonScript.SetAirMonType(monType);
+
+            if (idx == 0 || idx == 1)
+            {
+                airMonster.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                airMonster.transform.localScale = new Vector3(1, 1, 1);
+            }
+            
             Vector3 spawnLoc = outsideLocations[idx].transform.position;
 
             airMonster.transform.position = spawnLoc;
@@ -360,6 +395,12 @@ public class InGameMgr : Singleton<InGameMgr>
         else if (rnd == 1) //inside
         {
             int idx = Random.Range(0, 4);
+            
+            int monType = Random.Range(0, 2);
+            airMonScript.SetAirMonType(monType);
+            
+            airMonster.transform.localScale = new Vector3(1, 1, 1);
+            
             Vector3 spawnLoc = insideLocations[idx].transform.position;
             
             airMonster.transform.position = spawnLoc;
@@ -377,13 +418,26 @@ public class InGameMgr : Singleton<InGameMgr>
         }
     }
 
+    public void HitAirMonster()
+    {
+       // Debug.Log("Hit");
+        DOTween.KillAll();
+        //efect for dotween
+        
+        score += DataMgr.Instance.airAddScore;
+        ResetBullet(0);
+        ResetBullet(1);
+        isAirMonMoveEnd = true;
+        TextUpdate();
+    }
+
     IEnumerator AirMonControll()
     {
         while (true)
         {
             if (isAir && isAirMonMoveEnd)
             {
-                Debug.Log("airMonSpawn");
+                //.Log("airMonSpawn");
                 AirMonsterSet();
                 
             }
@@ -496,19 +550,26 @@ public class InGameMgr : Singleton<InGameMgr>
                             .OnComplete(() => DoCom(nowMon));
 
                     }
+                    
+                    nowMon.GetComponent<SpriteRenderer>().sortingOrder = ((int)nowMon.transform.position.y - 10) * (-1);
 
+                    //nowMon.transform.localScale = new Vector3(0.53f, 0.53f, 0);
                     //onComplete -> SetActive(false)
 
+                    //
 
                     //Another monster Move to front;
                     foreach (GameObject obj in monsterObjectListQ)
                     {
                         //obj move to obj.y - ( moveVec ); 
                         obj.SetActive(true);
+                        obj.transform.localScale =
+                            new Vector3(obj.transform.localScale.x * 1.15f, obj.transform.localScale.y * 1.15f, 0);
                         obj.transform.DOMoveY(obj.transform.position.y - moveValue, DataMgr.Instance.moveSpeedTime);
                         obj.GetComponent<SpriteRenderer>().sortingOrder = ((int)obj.transform.position.y - 10) * (-1);
                     }
 
+                    lastMonster.transform.localScale = new Vector3(0.53f, 0.53f, 0);
                     lastMonster.SetActive(true);
                     lastMonster.GetComponent<SpriteRenderer>().sortingOrder =
                         ((int)lastMonster.transform.position.y - 10) * (-1);
@@ -530,7 +591,7 @@ public class InGameMgr : Singleton<InGameMgr>
 
                     if (combo == DataMgr.Instance.bonusStandNum)
                     {
-                        SetBonus();
+                        StartCoroutine(SetBonus());
                     }
                     else if (combo == DataMgr.Instance.airStandNum)
                     {
@@ -609,28 +670,53 @@ public class InGameMgr : Singleton<InGameMgr>
         mainCam.transform.DOMove(new Vector3(0, 19.2f, -15), DataMgr.Instance.airCamMoveTime);
         isAirMonMoveEnd = true;
         //기타연출
+        sunObj.transform.DOMove(sunTarget.transform.position, DataMgr.Instance.airCamMoveTime);
     }
 
     void UnsetAir()
     {
         isAir = false;
         mainCam.transform.DOMove(new Vector3(0, 0, -15), DataMgr.Instance.airCamMoveTime);
+        
+        sunObj.transform.DOMove(oriSunLocation, DataMgr.Instance.airCamMoveTime);
     }
 
-    void SetBonus()
+    IEnumerator SetBonus()
     {
+        isGamePlay = false;
         isBonus = true;
+        cloudObj.SetActive(false);
+        sunObj.GetComponent<SpriteRenderer>().sprite = DataMgr.Instance.sunImgs[2];
         bonusUI.SetActive(true);
         bonusBackground.SetActive(true);
+        goldCountText.gameObject.SetActive(false);
         comboText.gameObject.SetActive(false);
         bonusCombo = 0;
+        bonusComboText.gameObject.SetActive(false);
         bonusGaugeIdx = 0;
         foreach (var obj in bonusGauge)
         {
             obj.SetActive(true);
         }
         
+        bonusTextImg.SetActive(true);
+        bonusTextImg.GetComponent<RectTransform>().DOShakeAnchorPos(2, Vector2.right* 350);
+        
+        yield return new WaitForSeconds(3);
+        bonusTextImg.SetActive(false);
+        bonusComboText.gameObject.SetActive(true);
+        bonusLights[0].SetActive(true);
+        bonusComboText.gameObject.SetActive(true);
         TextUpdate();
+        isGamePlay = true;
+        yield return new WaitForSeconds(3);
+        bonusLights[1].SetActive(true);
+        yield return new WaitForSeconds(3);
+        bonusLights[2].SetActive(true);
+        
+        TextUpdate();
+
+        yield return null;
     }
 
     void UnsetBonus()
@@ -638,79 +724,87 @@ public class InGameMgr : Singleton<InGameMgr>
         isBonus = false;
         bonusUI.SetActive(false);
         bonusBackground.SetActive(false);
+        goldCountText.gameObject.SetActive(false);
         comboText.gameObject.SetActive(true);
+        cloudObj.SetActive(true);
+        
+        sunObj.GetComponent<SpriteRenderer>().sprite = DataMgr.Instance.sunImgs[0];
+        
+        bonusLights[2].SetActive(false);
+        bonusLights[1].SetActive(false);
+        bonusLights[0].SetActive(false);
     }
 
     public void ButtonClickAction(int buttonType)
     {
-        if (!isAir)
+        if (isGamePlay)
         {
-            if (!isBonus)
+            if (!isAir)
             {
-                if (!isPurple)
+                if (!isBonus)
                 {
-                    if (nowMonster == buttonType) //success
+                    if (!isPurple)
                     {
-                        timeValue += DataMgr.Instance.successValue;
-                        //SuccessAction();
-                        isSuc = true;
-                    }
-                    else if (nowMonster == 3) // gold
-                    {
-                        comboText.gameObject.SetActive(false);
-                        goldCountText.gameObject.SetActive(true);
-                        goldCount += 1;
-                        comboTimeCount = 0;
-
-                        if (goldCount >= DataMgr.Instance.goldInputNum)
+                        if (nowMonster == buttonType) //success
                         {
-                            goldCount = 0;
+                            timeValue += DataMgr.Instance.successValue;
+                            //SuccessAction();
                             isSuc = true;
-                            timeValue += DataMgr.Instance.goldSucValue;
-                            comboText.gameObject.SetActive(true);
-                            goldCountText.gameObject.SetActive(false);
+                        }
+                        else if (nowMonster == 3) // gold
+                        {
+                            comboText.gameObject.SetActive(false);
+                            goldCountText.gameObject.SetActive(true);
+                            goldCount += 1;
+                            comboTimeCount = 0;
+
+                            if (goldCount >= DataMgr.Instance.goldInputNum)
+                            {
+                                goldCount = 0;
+                                isSuc = true;
+                                timeValue += DataMgr.Instance.goldSucValue;
+                                comboText.gameObject.SetActive(true);
+                                goldCountText.gameObject.SetActive(false);
+                            }
+                        }
+                        else
+                        {
+                            //Debug.Log("Wrong button");
+                            timeValue -= DataMgr.Instance.failValue;
+                            combo = 0;
+                            StartCoroutine(FailedClick(buttonType));
                         }
                     }
-                    else
+                    else //isPurple
                     {
-                        //Debug.Log("Wrong button");
-                        timeValue -= DataMgr.Instance.failValue;
-                        combo = 0;
-                        StartCoroutine(FailedClick(buttonType));
+                        if (purpleTimeCount >= DataMgr.Instance.purpleDelayGrace)
+                        {
+                            //Debug.Log("late purple");
+                            timeValue -= DataMgr.Instance.failValue;
+                            combo = 0;
+                            StartCoroutine(FailedClick(buttonType));
+                            purpleTimeCount = 0;
+                            isBtnLDown = false;
+                            isBtnRDown = false;
+                        }
+
+                        else if (((buttonType == 1 && isBtnLDown) || (buttonType == 0 && isBtnRDown)) &&
+                                 purpleTimeCount < DataMgr.Instance.purpleDelayGrace)
+                        {
+                            timeValue += DataMgr.Instance.successValue;
+
+                            //SuccessAction();
+                            isSuc = true;
+                            //isPurple = false;
+                        }
                     }
-                }
-                else //isPurple
+                } // ~!bonus
+
+                else
                 {
-                    if (purpleTimeCount >= DataMgr.Instance.purpleDelayGrace)
-                    {
-                        //Debug.Log("late purple");
-                        timeValue -= DataMgr.Instance.failValue;
-                        combo = 0;
-                        StartCoroutine(FailedClick(buttonType));
-                        purpleTimeCount = 0;
-                        isBtnLDown = false;
-                        isBtnRDown = false;
-                    }
-
-                    else if(((buttonType == 1&&isBtnLDown) || (buttonType == 0&&isBtnRDown)) &&purpleTimeCount < DataMgr.Instance.purpleDelayGrace)
-                    {
-                        timeValue += DataMgr.Instance.successValue;
-
-                        //SuccessAction();
-                        isSuc = true;
-                        //isPurple = false;
-                    }
+                    isSuc = true;
                 }
-            } // ~!bonus
-
-            else
-            {
-                isSuc = true;
             }
-        }
-        else if (isAir)
-        {
-            
         }
     }
 

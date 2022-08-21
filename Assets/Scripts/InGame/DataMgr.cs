@@ -21,19 +21,17 @@ public class DataMgr : Singleton<DataMgr>
     public float morningSpeed;
     public float afternoonSpeed;
     public float nightSpeed;
-
     public float redMonPer;
     public float blueMonPer;
     public float purpleMonPer;
     public float goldMonPer;
-
     public int goldInputNum;
-
-
+    
     [Header("Bonus")] 
     public int bonusStandNum;
     public float bonusTime;
     public int bonusScoreValue;
+    public Sprite[] sunImgs;
 
     [Header("Air")] 
     public int airStandNum;
@@ -42,6 +40,7 @@ public class DataMgr : Singleton<DataMgr>
     public float airSwipeStand;
     public float airBulletSpeedTime;
     public float airMonSpeedTime;
+    public int airAddScore;
     
     [Header("ImageRes")]
     public Sprite[] monsterImgs;

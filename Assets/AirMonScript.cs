@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,16 @@ public class AirMonScript : MonoBehaviour
 
     public void SetAirMonType(int type)
     {
-        if (type == 0) //red
+        airMonSprite.sprite = DataMgr.Instance.airMonsterImgs[type];
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Bullet"))
         {
-            airMonSprite.sprite = DataMgr.Instance.airMonsterImgs[0];
-        }
-        else if (type == 1) //blue
-        {
-            airMonSprite.sprite = DataMgr.Instance.airMonsterImgs[1];
+            InGameMgr.Instance.HitAirMonster();
+            
         }
     }
 }

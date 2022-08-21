@@ -8,6 +8,7 @@ TagManager:
   - HUDcam
   - LevelLoader
   - AirMon
+  - Bullet
   layers:
   - Default
   - TransparentFX
