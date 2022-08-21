@@ -61,7 +61,19 @@ public class InGameMgr : Singleton<InGameMgr>
     public Text comboText;
     public Text goldCountText;
     public int combo;
-    [HideInInspector] public int score;
+    private int score;
+    [HideInInspector] public int Score
+    {
+        get
+        {
+            return PlayerPrefs.GetInt("SCORE_KEY", score);
+        }
+        set
+        {
+            PlayerPrefs.SetInt("SCORE_KEY", value);
+            score = value;
+        }
+    }
     [HideInInspector] public float comboTimeCount ;
 
     [Header("Bonus")] 
@@ -310,7 +322,7 @@ public class InGameMgr : Singleton<InGameMgr>
         oriSunLocation = sunObj.transform.position;
         
         combo = 0;
-        score = 0;
+        Score = 0;
         goldCount = 0;
         comboTimeCount = 0;
         purpleTimeCount = 0;
@@ -431,7 +443,7 @@ public class InGameMgr : Singleton<InGameMgr>
         DOTween.KillAll();
         //efect for dotween
         
-        score += DataMgr.Instance.airAddScore;
+        Score += DataMgr.Instance.airAddScore;
         ResetBullet(0);
         ResetBullet(1);
         isAirMonMoveEnd = true;
@@ -479,7 +491,7 @@ public class InGameMgr : Singleton<InGameMgr>
 
         if (scoreText.gameObject.activeSelf)
         {
-            scoreText.text = "점수 : " + score.ToString();
+            scoreText.text = "점수 : " + Score.ToString();
         }
 
         if (bonusComboText.gameObject.activeSelf)
@@ -540,7 +552,7 @@ public class InGameMgr : Singleton<InGameMgr>
                     isSuc = false;
                     combo += 1;
                     comboTimeCount = 0;
-                    score += DataMgr.Instance.addScoreValue;
+                    Score += DataMgr.Instance.addScoreValue;
                     GameObject nowMon = monsterObjectListQ.Dequeue();
 
                     //nowMon Move;
@@ -613,7 +625,7 @@ public class InGameMgr : Singleton<InGameMgr>
                     isSuc = false;
                     comboTimeCount = 0;
                     bonusCombo += 1;
-                    score += DataMgr.Instance.addScoreValue * DataMgr.Instance.bonusScoreValue;
+                    Score += DataMgr.Instance.addScoreValue * DataMgr.Instance.bonusScoreValue;
                     GameObject nowMon = monsterObjectListQ.Dequeue();
 
                     if (nowMonster == 0)
