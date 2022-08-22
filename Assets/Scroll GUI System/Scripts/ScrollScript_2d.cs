@@ -15,7 +15,7 @@ public class ScrollScript_2d : MonoBehaviour
    
     //other variables:
     Animator anim;
-    AudioSource Sound;
+    // AudioSource Sound;
     bool open = false;
     
 
@@ -26,7 +26,7 @@ public class ScrollScript_2d : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        Sound = gameObject.GetComponent<AudioSource>();
+        // Sound = gameObject.GetComponent<AudioSource>();
         gameObject.GetComponentInParent<Canvas>().worldCamera = GameObject.FindGameObjectWithTag("HUDcam").GetComponent<Camera>();
     }
 
@@ -37,13 +37,13 @@ public class ScrollScript_2d : MonoBehaviour
         if (!open)
         {
             anim.SetTrigger("OpenTrig");
-            PlaySound();
+            // PlaySound();
             open = true;
         }
         else if (open)
         {
             anim.SetTrigger("CloseTrig");
-            PlaySound();
+            // PlaySound();
             open = false;
             MakeTextGoAway();
         }
@@ -59,11 +59,11 @@ public class ScrollScript_2d : MonoBehaviour
         MenuContent.gameObject.SetActive(false);
     }
 
-    void PlaySound()
-    {
-        if (playSound)
-        {
-            Sound.Play();
-        }
-    }
+    // void PlaySound()
+    // {
+    //     if (playSound)
+    //     {
+    //         Sound.Play();
+    //     }
+    // }
 }

@@ -29,10 +29,6 @@ public class ControllerRanking : MonoBehaviour
 
     private void Start()
     {
-        scrollRect.onValueChanged.AddListener(HandlOnValueChanged);
-
-        scroll.animate();
-
         homeButton.OnClickAsObservable()
             .Subscribe(_ =>
             {
@@ -84,6 +80,10 @@ public class ControllerRanking : MonoBehaviour
         }
         
         scoreText.text = PlayerPrefs.GetInt("SCORE_KEY", 0).ToString();
+        AudioManager.Inst.PlayOneShot(SoundName.SFX_Fabric);
+
+        scrollRect.onValueChanged.AddListener(HandlOnValueChanged);
+        scroll.animate();
     }
 
     private void HandlOnValueChanged(Vector2 value)

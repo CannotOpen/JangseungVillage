@@ -646,11 +646,17 @@ public class InGameMgr : Singleton<InGameMgr>
                     {
                         //obj move to obj.y - ( moveVec ); 
                         obj.SetActive(true);
+                        obj.transform.localScale =
+                            new Vector3(obj.transform.localScale.x * 1.15f, obj.transform.localScale.y * 1.15f, 0);
+                        obj.transform.DOMoveY(obj.transform.position.y - moveValue, DataMgr.Instance.moveSpeedTime);
+
                         obj.transform.DOMoveY(obj.transform.position.y - moveValue, DataMgr.Instance.moveSpeedTime);
                         obj.GetComponent<SpriteRenderer>().sortingOrder = ((int)obj.transform.position.y - 10) * (-1);
                     }
-
+                    
+                    lastMonster.transform.localScale = new Vector3(0.53f, 0.53f, 0);
                     lastMonster.SetActive(true);
+
                     lastMonster.GetComponent<SpriteRenderer>().sortingOrder =
                         ((int)lastMonster.transform.position.y - 10) * (-1);
                     var tween = lastMonster.transform
