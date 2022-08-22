@@ -4908,7 +4908,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -301, y: 803.08}
-  m_SizeDelta: {x: 339.2352, y: 113.8357}
+  m_SizeDelta: {x: 500, y: 113.8357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1344957313
 CanvasRenderer:
@@ -7004,14 +7004,14 @@ MonoBehaviour:
   purpleMonPer: 15
   goldMonPer: 5
   goldInputNum: 10
-  bonusStandNum: 20
+  bonusStandNum: 10
   bonusTime: 10
   bonusScoreValue: 2
   sunImgs:
   - {fileID: 21300000, guid: fe0d79e15d72d2449af342f5fb31d5bc, type: 3}
   - {fileID: 21300000, guid: 149efeea7a2537142b649a9327a1a126, type: 3}
   - {fileID: 21300000, guid: a376551d1d7110a4e8bbe31636ccb3b2, type: 3}
-  airStandNum: 40
+  airStandNum: 20
   airCamMoveTime: 1.5
   airTime: 15
   airSwipeStand: 150
